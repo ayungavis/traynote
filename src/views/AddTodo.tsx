@@ -1,11 +1,9 @@
 import React from "react";
 
+import Content from "../components/Content";
+
 const AddTodo = () => {
-  return (
-    <div>
-      <p>This is AddTodo</p>
-    </div>
-  );
+  return <Content>This is AddTodo</Content>;
 };
 
 export default AddTodo;
