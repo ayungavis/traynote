@@ -11,7 +11,7 @@ const Content: React.FC<Props> = props => {
   return (
     <div className={classes.root}>
       <Navbar />
-      {children}
+      <div className={classes.container}>{children}</div>
     </div>
   );
 };
@@ -20,7 +20,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     maxWidth: "768px",
     marginRight: "auto",
-    marginLeft: "auto"
+    marginLeft: "auto",
+    backgroundColor: "#F5F5F5"
+  },
+  container: {
+    margin: "16px 0px"
   }
 }));
 

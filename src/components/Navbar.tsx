@@ -33,17 +33,24 @@ const Navbar = () => {
         <Link to="/">
           <h1 className={classes.logo}>ToDo App</h1>
         </Link>
+        <div>Easy to manage your work!</div>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={3} className={classes.row}>
         {pathname === "/add" ? (
           <div className={classes.row}>
-            <Button variant="contained" onClick={handleSave}>
+            <Button
+              variant="contained"
+              onClick={handleSave}
+              className={classes.margin}
+            >
               Save
             </Button>
             <Button onClick={handleCancel}>Cancel</Button>
           </div>
         ) : (
-          <Button onClick={handleAdd}>Add Task</Button>
+          <Button onClick={handleAdd} variant="contained">
+            Login
+          </Button>
         )}
       </Grid>
     </Grid>
@@ -53,7 +60,7 @@ const Navbar = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
-    height: "64px"
+    height: "80px"
   },
   logo: {
     fontSize: "1.5rem",
@@ -61,7 +68,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   row: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "flex-end"
+  },
+  margin: {
+    marginRight: theme.spacing(2)
   }
 }));
 
