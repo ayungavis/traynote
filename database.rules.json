@@ -1,0 +1,18 @@
+{
+  "rules": {
+    ".read": "true",
+    "users": {
+      ".indexOn": ["fullName"],
+      "$userId": {
+        ".read": "auth.uid === $userId || root.child('users').child(auth.uid).child('mentoredProducts').child($userId).exists()",
+        ".write": "auth.uid === $userId"
+      }
+    },
+    "notes": {
+      "$userId": {
+        ".read": "auth.uid === $userId",
+        ".write": "auth.uid === $userId"
+      }
+    }
+  }
+}

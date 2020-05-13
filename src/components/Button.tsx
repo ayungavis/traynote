@@ -1,5 +1,6 @@
 import React from "react";
 import { default as MaterialButton } from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactLoading from "react-loading";
 
@@ -22,7 +23,7 @@ interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button: React.FC<Props> = props => {
+const Button: React.FC<Props> = (props) => {
   const {
     children,
     className,
@@ -36,7 +37,7 @@ const Button: React.FC<Props> = props => {
     size,
     variant,
     loading,
-    onClick
+    onClick,
   } = props;
 
   function getHeight() {
@@ -77,11 +78,11 @@ const Button: React.FC<Props> = props => {
         <ReactLoading
           className={classes.loading}
           type="bubbles"
-          color="#33ABA0"
+          color="#5843BD"
           height={30}
         />
       ) : (
-        children
+        <Typography variant="button">{children}</Typography>
       )}
     </MaterialButton>
   );
@@ -89,15 +90,11 @@ const Button: React.FC<Props> = props => {
 
 const useStyles = makeStyles(() => ({
   root: {
-    textTransform: "none",
-    fontSize: "16px",
-    fontWeight: 800,
-    lineHeight: "1.37em",
-    display: "flex"
+    display: "flex",
   },
   loading: {
-    marginTop: "-30px"
-  }
+    marginTop: "-35px",
+  },
 }));
 
 export default Button;

@@ -1,27 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Divider from "@material-ui/core/Divider";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { useHistory, useLocation } from "react-router-dom";
+import {
+  IoLogoGoogle,
+  IoIosPerson,
+  IoMdLogOut,
+  IoMdHome,
+} from "react-icons/io";
+
+import { useAuthContext } from "hooks/contexts/AuthContext";
+import { loginWithGoogle, logout } from "api/auth";
 
 import Link from "./Link";
 import Button from "./Button";
 
 const Navbar = () => {
   const classes = useStyles();
+  const auth = useAuthContext();
   const history = useHistory();
-  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleAdd = () => {
-    history.push("/add");
+  const handleSignUp = () => {
+    setLoading(true);
+    loginWithGoogle()
+      .then(() => {
+        setLoading(false);
+        history.push("/dashboard");
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
   };
 
-  const handleSave = () => {};
-
-  const handleCancel = () => {
-    history.goBack();
+  const handleLogout = () => {
+    logout();
+    setAnchorEl(null);
+    history.push("/");
   };
 
-  const { pathname } = location;
+  const handleMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  function renderAvatar() {
+    if (auth.user?.photo)
+      return (
+        <div className={classes.avatar} onClick={handleMenu}>
+          <Avatar alt={auth.user?.fullName} src={auth.user?.photo} />
+        </div>
+      );
+    else
+      return (
+        <div className={classes.avatar} onClick={handleMenu}>
+          <Avatar>
+            <IoIosPerson />
+          </Avatar>
+        </div>
+      );
+  }
+
   return (
     <Grid
       container
@@ -31,28 +81,53 @@ const Navbar = () => {
     >
       <Grid item xs={9}>
         <Link to="/">
-          <h1 className={classes.logo}>ToDo App</h1>
+          <Typography variant="h1" className={classes.logo}>
+            Traynote
+          </Typography>
         </Link>
-        <div>Easy to manage your work!</div>
       </Grid>
       <Grid item xs={3} className={classes.row}>
-        {pathname === "/add" ? (
-          <div className={classes.row}>
-            <Button
-              variant="contained"
-              onClick={handleSave}
-              className={classes.margin}
-            >
-              Save
-            </Button>
-            <Button onClick={handleCancel}>Cancel</Button>
-          </div>
+        {auth.isLoggedIn ? (
+          renderAvatar()
         ) : (
-          <Button onClick={handleAdd} variant="contained">
-            Login
+          <Button
+            onClick={handleSignUp}
+            startIcon={<IoLogoGoogle />}
+            variant="contained"
+            loading={loading}
+          >
+            Sign Up
           </Button>
         )}
       </Grid>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        keepMounted
+      >
+        <MenuItem>
+          <Link to="/dashboard">
+            <ListItemIcon>
+              <IoMdHome />
+            </ListItemIcon>
+            <Typography variant="inherit">Dashboard</Typography>
+          </Link>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <IoIosPerson />
+          </ListItemIcon>
+          <Typography variant="inherit">Profile</Typography>
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <IoMdLogOut />
+          </ListItemIcon>
+          <Typography variant="inherit">Logout</Typography>
+        </MenuItem>
+      </Menu>
     </Grid>
   );
 };
@@ -60,19 +135,21 @@ const Navbar = () => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: "100%",
-    height: "80px"
+    height: "80px",
   },
   logo: {
     fontSize: "1.5rem",
-    margin: "0px"
+    margin: "0px",
+    letterSpacing: "5px",
+    textTransform: "uppercase",
+  },
+  avatar: {
+    cursor: "pointer",
   },
   row: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
-  margin: {
-    marginRight: theme.spacing(2)
-  }
 }));
 
 export default Navbar;

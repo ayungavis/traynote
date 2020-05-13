@@ -1,0 +1,29 @@
+{
+  "title": "Note",
+  "type": "object",
+  "properties": {
+    "uid": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "format": "email"
+    },
+    "favorite": {
+      "type": "boolean",
+      "default": false
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["title", "description", "createdAt"]
+}

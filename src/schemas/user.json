@@ -1,0 +1,25 @@
+{
+  "title": "User",
+  "type": "object",
+  "properties": {
+    "fullName": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "emailVerified": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["fullName"]
+}

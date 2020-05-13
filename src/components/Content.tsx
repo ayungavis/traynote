@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 
 interface Props {}
 
-const Content: React.FC<Props> = props => {
+const Content: React.FC<Props> = (props) => {
   const { children } = props;
   const classes = useStyles();
   return (
@@ -18,14 +18,18 @@ const Content: React.FC<Props> = props => {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    maxWidth: "768px",
+    maxWidth: "1140px",
     marginRight: "auto",
     marginLeft: "auto",
-    backgroundColor: "#F5F5F5"
+    backgroundColor: "#ffffff",
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "2rem",
+      marginLeft: "2rem",
+    },
   },
   container: {
-    margin: "16px 0px"
-  }
+    margin: "16px 0px",
+  },
 }));
 
 export default Content;
